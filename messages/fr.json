@@ -1,0 +1,15 @@
+{
+    "Navigation": {
+      "acceuil":"Acceuil",
+      "trouverUnPro":"Trouver un pro",
+      "seConnecter":"Se connecter",
+      "sInscrire":"S'inscrire"
+    },
+    "Headings":{
+      "h1Hero":"Trouver des artisans et des ouvriers qualifiés près de chez vous."
+    },
+    "Buttons":{
+      "heroSearchBtn":"Rechercher un artisan",
+      "heroRegisterBtn":"Créer un compte"
+    }
+  }

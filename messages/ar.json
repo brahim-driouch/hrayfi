@@ -1,0 +1,15 @@
+{
+    "Navigation": {
+        "acceuil":"الرئيسية",
+        "trouverUnPro":"إبحث عن حرفي",
+        "seConnecter":"الدخول",
+        "sInscrire":"التسجيل"
+      },
+      "Headings":{
+        "h1Hero":"ابحث عن الحرفيين والعمال المهرة بالقرب منك."
+      },
+      "Buttons":{
+        "heroSearchBtn":"إبحث عن حرفي",
+        "heroRegisterBtn":"إنشاء حساب جديد"
+      }
+  }
