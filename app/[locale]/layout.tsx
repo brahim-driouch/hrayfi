@@ -19,7 +19,7 @@ export default async function LocaleLayout({
       <body>
         <NextIntlClientProvider messages={messages}>
 
-          <div className='w-full bg-gray-100 flex min-h-screen flex-col justify-start items-center px-2 md:px-14 lg:px-24'>
+          <div className='w-full flex min-h-screen flex-col justify-start items-center px-2 md:px-14 lg:px-24'>
             <Header/>
           {children}
           </div>

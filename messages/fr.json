@@ -6,10 +6,20 @@
       "sInscrire":"S'inscrire"
     },
     "Headings":{
-      "h1Hero":"Trouver des artisans et des ouvriers qualifiés près de chez vous."
+      "h1Hero":"Trouver des artisans et des ouvriers qualifiés près de chez vous.",
+      "h1RegisterPage":"Créer un nouveau compte"
     },
     "Buttons":{
       "heroSearchBtn":"Rechercher un artisan",
       "heroRegisterBtn":"Créer un compte"
+    },
+    "Forms":{
+       "firstName":"Prénom",
+       "lastName":"Nom",
+       "email":"Email",
+       "password":"Mod de pass",
+       "passwordConfirmation":"Confirmation de mot de pass",
+       "accountType":"Type de compte"
+
     }
   }

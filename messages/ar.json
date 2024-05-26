@@ -6,10 +6,21 @@
         "sInscrire":"التسجيل"
       },
       "Headings":{
-        "h1Hero":"ابحث عن الحرفيين والعمال المهرة بالقرب منك."
+        "h1Hero":"ابحث عن الحرفيين والعمال المهرة بالقرب منك.",
+        "h1RegisterPage":"إنشاء حساب جديد"
+
       },
       "Buttons":{
         "heroSearchBtn":"إبحث عن حرفي",
         "heroRegisterBtn":"إنشاء حساب جديد"
-      }
+      },
+      "Forms":{
+        "firstName":"الإسم الشخصي",
+        "lastName":"الإسم العائلي",
+        "email":"البريد الإلكتروني",
+        "password":"كلمة السر",
+        "passwordConfirmation":"تأكيدكلمة السر",
+        "accountType":"نوع الحساب"
+ 
+     }
   }
