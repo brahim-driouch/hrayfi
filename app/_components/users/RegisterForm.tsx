@@ -32,7 +32,7 @@ const RegisterForm = () => {
 
 const submitForm :SubmitHandler<NewUser> =(data)=>console.log(data)
   return (
-    <form onSubmit={handleSubmit(submitForm)} className="w-full flex flex-col space-y-1">
+    <form onSubmit={handleSubmit(submitForm)} className="w-full md:w-3/5 lg:w-2/5  flex flex-col  p-4 shadow-sm ">
       {
         inputNames.map((name)=>(
           <Input  
@@ -40,14 +40,14 @@ const submitForm :SubmitHandler<NewUser> =(data)=>console.log(data)
           message={errors[name as keyof typeof errors]?.message}  
           key={name} 
           styling={`${errors[name as keyof typeof errors]?.message 
-            ? "border-2 border-red-400 rounded p-2 outline-none focus:border-blue-300" 
-            :"border rounded p-2 outline-none focus:border-blue-300"}`} 
+            ? "border-2 border-red-400  focus:border-blue-300 " 
+            :"border  focus:border-blue-300 focus:border-2"} mb-2 outline-none rounded  p-2 `} 
             register={register} 
             name={name as keyof NewUser} 
             label={t(name)}/>
         ))
       }
-      <button className="w-full p-2 bg-purple-800 text-white text-xl rounded outline-none">
+      <button className="w-full p-2 mt-6  bg-purple-800 text-white text-xl rounded outline-none hover:bg-purple-900">
         S'inscrie
       </button>
         
