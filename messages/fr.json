@@ -13,7 +13,7 @@
       "heroSearchBtn":"Rechercher un artisan",
       "heroRegisterBtn":"Créer un compte"
     },
-    "Forms":{
+    "RegistrationForm":{
        "firstName":"Prénom",
        "lastName":"Nom",
        "email":"Email",
@@ -21,5 +21,11 @@
        "passwordConfirmation":"Confirmation de mot de pass",
        "accountType":"Type de compte"
 
-    }
+    },
+    "AccountTypeSelection":{
+      "accounTypeSelectPrompt":"Type de compte",
+      "Pro":"Professionnel",
+      "Customer":"Client"
+     }
+   
   }
