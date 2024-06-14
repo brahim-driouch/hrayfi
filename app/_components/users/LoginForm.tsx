@@ -7,21 +7,20 @@ import {
 } from "react-hook-form";
 import Input from "../reusable/Input";
 import {
-  AccountType,
-  NewUser,
+  LoginUserType,
   ServerResponse,
-  inputNames,
-  registringUserSchema,
+  loginInputNames,
+  loginUserSchema,
 } from "@/dataSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import {  ZodIssue } from "zod";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
+import { navigate } from "@/lib/navigate";
 
 
-
-const RegisterForm = () => {
+const LoginForm = () => {
   const t = useTranslations("RegistrationForm");
   const [genericError,setGenericError]=useState("")
   const t1 = useTranslations("AccountTypeSelection");
@@ -31,9 +30,9 @@ const RegisterForm = () => {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm<NewUser>({
+  } = useForm<LoginUserType>({
       mode:"onBlur",
-     resolver:zodResolver(registringUserSchema),
+     resolver:zodResolver(loginUserSchema),
   
   });
     
@@ -57,12 +56,12 @@ const RegisterForm = () => {
 
 
   // submit form
-  const submitForm: SubmitHandler<NewUser> = async (data) => {
+  const submitForm: SubmitHandler<LoginUserType> = async (data) => {
     try {
 
-      console?.log("start")
-      const response:ServerResponse<string> = await axios.post(
-        "/api/users",
+  
+       const response  :AxiosResponse<ServerResponse<string>>=    await axios.post(
+        "/api/users/login",
         data,
         {
           headers: {
@@ -72,19 +71,24 @@ const RegisterForm = () => {
         
         }
       );
+
+      console.log(response)
+   if(response.data.status=== "success"){
+   navigate(`/${locale}/in?ref=login`)
+  }
       
-      if(response.status === "success"){
-        console.log('done')
-      }
+      
+      
     } catch (error: any) {
-      
+      console.log(error)
       const errors = error.response.data.errors as ZodIssue[]
-      const genericErrorMessage = errors.find((err)=>err.path[0].toString() === "generic")?.message[locale as keyof Message]
+      const genericErrorMessage = errors?.find((err)=>err?.path[0].toString() === "generic")?.message[locale as keyof Message]
+      console.log(genericErrorMessage)
       if(genericErrorMessage){
         setGenericError(genericErrorMessage)
       }
-      errors.map((err)=>{
-        setError(err.path[0].toString() as keyof NewUser,{
+      errors?.map((err)=>{
+        setError(err.path[0].toString() as keyof LoginUserType,{
           type:"server",
           message:err.message
         })
@@ -103,8 +107,8 @@ const RegisterForm = () => {
           {genericError}
         </span>
       )}
-      {inputNames.map((name) => (
-        <Input 
+      {loginInputNames.map((name) => (
+        <Input
           message={
             //@ts-ignore
               errors[name as keyof typeof errors]?.message[
@@ -118,39 +122,18 @@ const RegisterForm = () => {
               : "border  focus:border-blue-300 focus:border-2"
           } mb-2 outline-none rounded  p-2 `}
           register={register}
-          name={name as keyof NewUser}
+          name={name as keyof LoginUserType}
           label={t(name)}
           type={inputType(name)}
         />
       ))}
-      <select
-        {...register("accountType")}
-        defaultValue={""}
-        className={`${
-          errors["accountType" as keyof typeof errors]?.message
-            ? "border-2 border-red-400  focus:border-blue-300 "
-            : "border  focus:border-blue-300 focus:border-2"
-        } mb-2 outline-none rounded  p-2 py-3 bg-inherit `}
-      >
-        <option disabled={true} value={""}>
-          {t1("accounTypeSelectPrompt")}
-        </option>
-        {Object.keys(AccountType).map((key) => (
-          <option value={key} key={key}>
-            {t1(key)}
-          </option>
-        ))}
-      </select>
-     {errors["accountType"] && errors["accountType"].message && (
-      <span className="text-red-500">
-       {errors["accountType"].message[locale as keyof Message]}
-      </span>
-     )}
+     
+    
       <button className="w-full p-2 mt-6  bg-purple-800 text-white text-xl rounded outline-none hover:bg-purple-900">
-        S'inscrie
+      Se connecter
       </button>
     </form>
   ); 
 };
 
-export default RegisterForm;
+export default LoginForm;

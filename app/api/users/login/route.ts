@@ -1,24 +1,25 @@
 import { db } from "@/database/db";
 import {
-  NewUser,
+  LoggedInUserType,
+    LoginUserType,
   ServerResponse,
-  User,
-  registringUserSchema,
+  loginUserSchema,
 } from "@/dataSchemas";
 import { CustomError } from "@/utils/CustomError";
 import { NextResponse } from "next/server";
 import { ZodIssue } from "zod";
 import bcrypt from "bcrypt";
-import sendEmail from "@/lib/sendEmail";
+import { createSession } from "@/auth";
+
 
 export const dynamic = "force-dynamic";
 export async function POST(
   request: Request
-): Promise<NextResponse<ServerResponse<string>>> {
+): Promise<NextResponse<ServerResponse<string>>  | null> {
   try {
-    const body: NewUser = await request.json();
+    const body: LoginUserType = await request.json();
 
-    await registringUserSchema.parseAsync(body);
+    await loginUserSchema.parseAsync(body);
 
     /**
      * @db check if user already exists in the database and
@@ -30,12 +31,12 @@ export async function POST(
       },
     });
 
-    if (userExists){
+    if (!userExists){
       throw new CustomError([
         {
           message: {
-            fr: "Cet email est déjà associé à un autre compte.",
-            ar: "هذا البريد الإلكتروني مرتبط بحساب آخر",
+            fr: "Cet adresse email ne semble associée à aucun compte.",
+            ar: "لا يوجد مستخدم بهذا البريد الإلكتروني.",
           },
           path: ["email"],
           code: "custom",
@@ -44,32 +45,33 @@ export async function POST(
     }
 
 
-    //  PASSWORD HASHING
-    const encryptedPassword = await bcrypt.hash(body.password, 10);
+    //  PASSWORD COMPARING
 
-    const { passwordConfirmation, ...dbUser } = body;
-    dbUser.password = encryptedPassword;
-  
-    // CREATE A RECORD
-    const queryRespnse = await db.user.create({
-      data: dbUser,
-    });
-
+    if(!bcrypt.compare(body.password,userExists.password)) {
+        throw new CustomError([
+            {
+              message: {
+                fr: "Merci de vérifier votre email/mot de pass.",
+                ar: "المرجو التأكد من المعلومات.",
+              },
+              path: ["generic"],
+              code: "custom",
+            },
+          ]);
+        }
+    
+     const {password, ...user} = userExists
+    // START SESSION 
+    await createSession(user as LoggedInUserType)
    
-     // SEND VERIFICATION EMAIL 
-    await sendEmail({
-      from:"brahimdriouch.dev@gmail.com",
-      to:[queryRespnse.email],
-      subject:"Vérifier votre compte.",
-      text:"<h1>Merci de verifier votre compte</h1>"
+  
+ return NextResponse.json({
+  status:"success",
+  data:"connexion ressie"
+ })
 
-    })
 
-    return NextResponse.json({
-      status: "success",
-      data: queryRespnse.id.toString() ,
-    });
-  } catch (error: any) {
+} catch (error: any) {
     console.log(error);
 
     let formattedErrors: any;
@@ -86,8 +88,8 @@ export async function POST(
             ar: "il a eu une erreur",
           },
           code: "custom",
-          path: ["gerenic"],
-        },
+          path: ["generic"],       
+         },
       ] as ZodIssue[];
     } else {
       status = 500;
@@ -112,3 +114,4 @@ export async function POST(
     );
   }
 }
+

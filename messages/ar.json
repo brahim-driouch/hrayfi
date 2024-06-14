@@ -7,7 +7,8 @@
       },
       "Headings":{
         "h1Hero":"ابحث عن الحرفيين والعمال المهرة بالقرب منك.",
-        "h1RegisterPage":"إنشاء حساب جديد"
+        "h1RegisterPage":"إنشاء حساب جديد",
+        "h1LoginPage":"تسجيل الدخول"
 
       },
       "Buttons":{
