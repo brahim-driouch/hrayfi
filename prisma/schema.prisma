@@ -14,18 +14,20 @@ datasource db {
 }
 
 enum AccountType {
-  Pro 
-  Customer 
+  Pro
+  Customer
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  firstName   String
-  lastName    String
-  email       String      @unique
-  password    String
-  createdAt   DateTime    @default(now())
-  accountType AccountType
+  id              Int         @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String      @unique
+  password        String
+  createdAt       DateTime    @default(now())
+  accountType     AccountType
+  isVerified      Boolean?     @default(false)
+  verificationCode String?     
 
   Profile Profile?
 }
@@ -34,7 +36,7 @@ model GalleryImage {
   id        Int     @id @default(autoincrement())
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId Int     @unique
-  imageUrl String
+  imageUrl  String
 }
 
 model Profile {

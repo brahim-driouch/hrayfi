@@ -13,24 +13,24 @@ interface EmailProps {
     from:string,
     to:string[],
     subject:string,
-    text:string,
+    text?:string,
     tags?:Tag[],
+    html?:any,
     headers?:any
 }
 
-export default async function sendEmail({from,to,subject,text,tags,headers}:EmailProps){
+export default async function sendEmail({from,to,subject,text,tags,headers,html}:EmailProps){
 
     if(!RESEND_API_KEY) return
 
 
-    await resend.emails.send({
+    return await resend.emails.send({
         from: from,
         to: to,
         subject: subject,
         text: text,
-       
+         html:html,
         headers: headers,
         tags:tags
       });
-      console.log("email sent")
 }

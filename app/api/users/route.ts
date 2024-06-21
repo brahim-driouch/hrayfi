@@ -10,11 +10,12 @@ import { NextResponse } from "next/server";
 import { ZodIssue } from "zod";
 import bcrypt from "bcrypt";
 import sendEmail from "@/lib/sendEmail";
+import generateVerificationCode from "@/lib/generateVerificationCode";
 
 export const dynamic = "force-dynamic";
 export async function POST(
   request: Request
-): Promise<NextResponse<ServerResponse<string>>> {
+): Promise<NextResponse<ServerResponse<Record<string,any>>>>{
   try {
     const body: NewUser = await request.json();
 
@@ -49,7 +50,9 @@ export async function POST(
 
     const { passwordConfirmation, ...dbUser } = body;
     dbUser.password = encryptedPassword;
-  
+    // GEERATE A RANDOM 6 DIGITS NUMBER
+      const verificationCode = generateVerificationCode()
+        dbUser.verificationCode = verificationCode
     // CREATE A RECORD
     const queryRespnse = await db.user.create({
       data: dbUser,
@@ -57,21 +60,33 @@ export async function POST(
 
    
      // SEND VERIFICATION EMAIL 
-    await sendEmail({
-      from:"brahimdriouch.dev@gmail.com",
+    const emailResponse = await sendEmail({
+      from:"brahim@brahimdriouch.dev",
       to:[queryRespnse.email],
-      subject:"Vérifier votre compte.",
-      text:"<h1>Merci de verifier votre compte</h1>"
+      subject:"Votre code de verification .",
+      html:`<h2> Voici le code veriification de votre compte ${verificationCode}. </h2>`
 
     })
 
-    return NextResponse.json({
-      status: "success",
-      data: queryRespnse.id.toString() ,
-    });
-  } catch (error: any) {
-    console.log(error);
+    if(emailResponse?.data?.id){
+      return NextResponse.json({
+        status: "success",
+        data:{
+          emailSent:true,
+          data:queryRespnse.id.toString()
+        }
+      });
+    }
 
+    return  NextResponse.json({
+      status: "success",
+      data: {
+        emailSent:false,
+        data:queryRespnse.id.toString()
+      } ,
+    });
+    
+  } catch (error: any) {
     let formattedErrors: any;
     let status: number;
     if ("issues" in error) {
@@ -86,7 +101,7 @@ export async function POST(
             ar: "il a eu une erreur",
           },
           code: "custom",
-          path: ["gerenic"],
+          path: ["generic"],
         },
       ] as ZodIssue[];
     } else {

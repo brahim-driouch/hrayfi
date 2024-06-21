@@ -19,7 +19,9 @@ export const userSchema = z.object({
  lastName:z.string().min(2,{message:{fr:"Merci de renseigner votre nom.",ar:"المرجو إدخال الإسم العائلي."}}),
  email:z.string().email({message:{fr:"Merci de rensigner une adresse email valide.",ar:"المرجو التأكد من البريد الإلكتروني."}}),
  password:z.string().min(8,{message:{fr:"Le mot de pass doit contenier 8 charactères au moins.",ar:" يجب أن تكون كلمة السر مكونة 8 أرقام أو حروف."}}),
- accountType:z.nativeEnum(AccountType,{message:{fr:"Merci de spécifier le type de compte.",ar:"المرجو إختيار نوع الحساب."}})
+ accountType:z.nativeEnum(AccountType,{message:{fr:"Merci de spécifier le type de compte.",ar:"المرجو إختيار نوع الحساب."}}),
+ isVerified:z.boolean().default(false),
+ verificationCode:z.string().optional()
  
 
 })
