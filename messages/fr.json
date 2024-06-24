@@ -30,6 +30,9 @@
      },
      "ErrorMessages":{
       "userExists":"Cet adresse email est déjà associé à un autre compte"
+     },
+     "ValidationPage":{
+      "InputPlaceholder":"Code d'activation du compte."
      }
    
   }

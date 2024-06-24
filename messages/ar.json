@@ -28,5 +28,9 @@
       "accounTypeSelectPrompt":"نوع الحساب",
       "Pro":"مهني",
       "Customer":"زبون"
+     },
+     "ValidationPage":{
+      "InputPlaceholder":"كود التفعيل"
      }
+     
   }

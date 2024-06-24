@@ -16,8 +16,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale, useTranslations } from "next-intl";
 import {  ZodIssue } from "zod";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
+import { navigate } from "@/lib/navigate";
 
 
 
@@ -61,7 +62,7 @@ const RegisterForm = () => {
     try {
 
       console?.log("start")
-      const response:ServerResponse<string> = await axios.post(
+      const response:AxiosResponse<ServerResponse<string>>= await axios.post(
         "/api/users",
         data,
         {
@@ -73,9 +74,9 @@ const RegisterForm = () => {
         }
       );
       
-      if(response.status === "success"){
-        console.log('done')
-      }
+      if(response.data.status=== "success"){
+        navigate(`/${locale}/account-validation`)
+       }
     } catch (error: any) {
       
       const errors = error.response.data.errors as ZodIssue[]

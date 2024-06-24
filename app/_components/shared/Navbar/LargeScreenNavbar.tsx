@@ -1,4 +1,4 @@
-import { type Navlink, navlinks, authLinks} from "@/content/links/navLinks"
+import { type Navlink, navlinks, authLinks} from "@/constants/links/navLinks"
 import { useLocale, useTranslations } from "next-intl"
 import { getLocale } from "next-intl/server";
 import Link from "next/link"

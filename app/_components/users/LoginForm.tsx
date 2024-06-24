@@ -73,9 +73,7 @@ const LoginForm = () => {
       );
 
       console.log(response)
-   if(response.data.status=== "success"){
-   navigate(`/${locale}/in?ref=login`)
-  }
+ 
       
       
       
