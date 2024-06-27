@@ -62,7 +62,7 @@ const RegisterForm = () => {
     try {
 
       console?.log("start")
-      const response:AxiosResponse<ServerResponse<string>>= await axios.post(
+      const response:AxiosResponse<ServerResponse<Record<string,any>>>= await axios.post(
         "/api/users",
         data,
         {
@@ -75,7 +75,7 @@ const RegisterForm = () => {
       );
       
       if(response.data.status=== "success"){
-        navigate(`/${locale}/account-validation`)
+        navigate(`/${locale}/account-validation?uid=${response.data.data.id}`)
        }
     } catch (error: any) {
       

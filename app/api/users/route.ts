@@ -11,6 +11,7 @@ import { ZodIssue } from "zod";
 import bcrypt from "bcrypt";
 import sendEmail from "@/lib/sendEmail";
 import generateVerificationCode from "@/lib/generateVerificationCode";
+import { createSession } from "@/auth";
 
 export const dynamic = "force-dynamic";
 export async function POST(
@@ -58,7 +59,6 @@ export async function POST(
       data: dbUser,
     });
 
-   
      // SEND VERIFICATION EMAIL 
     const emailResponse = await sendEmail({
       from:"brahim@brahimdriouch.dev",
@@ -73,11 +73,11 @@ export async function POST(
         status: "success",
         data:{
           emailSent:true,
-          data:queryRespnse.id.toString()
+          id:queryRespnse.id.toString()
         }
       });
     }
-
+    
     return  NextResponse.json({
       status: "success",
       data: {

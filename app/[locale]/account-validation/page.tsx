@@ -1,5 +1,5 @@
 "use client"
-
+import { useSearchParams } from 'next/navigation'
 import  apiEndPoints from "@/constants/apiEndPoints"
 import { ServerResponse } from "@/dataSchemas"
 import { navigate } from "@/lib/navigate"
@@ -13,13 +13,30 @@ function ValidationCodeSubmissionPage() {
   const [activationCode,setActivationCode]=useState("")
   const locale = useLocale()
   const t = useTranslations("ValidationPage")
+  const params = useSearchParams()
+   const userId = params.get('uid')
 
   const onsubmit = async(e:FormEvent)=>{
     e.preventDefault()
+
+    if(!userId) {
+       setErrorMessage({
+        message:{
+          fr:"utilisateur inconu.",
+          ar:"utilisateur inconu."
+        },
+        code:"custom",
+        path:["generic"]
+      })
+
+      return 
+    } 
    
     try {
       const response: AxiosResponse<ServerResponse<boolean>> = await axios.post(apiEndPoints.accountService.accountValidation,{
-activationCode     
+verificationCode:activationCode ,
+userId
+
  },
 {
   headers:{
@@ -28,7 +45,7 @@ activationCode
 })
 
 if(response.data.status === "success"){
-  navigate(`/${locale}/login?ref=validationprocess`)
+  navigate(`/${locale}/se-connecter`)
 }
     } catch (error:any) {
       const errors = error.response.data.errors as ZodIssue[]
