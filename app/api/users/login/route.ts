@@ -59,6 +59,8 @@ export async function POST(
             },
           ]);
         }
+
+       
     
      const {password, ...user} = userExists
     // START SESSION 
@@ -67,7 +69,7 @@ export async function POST(
   
  return NextResponse.json({
   status:"success",
-  data:"connexion ressie"
+  data:"connexion reussie"
  })
 
 

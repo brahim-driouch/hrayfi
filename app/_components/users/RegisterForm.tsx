@@ -19,6 +19,7 @@ import {  ZodIssue } from "zod";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 import { navigate } from "@/lib/navigate";
+import apiEndPoints from "@/constants/apiEndPoints";
 
 
 
@@ -63,7 +64,7 @@ const RegisterForm = () => {
 
       console?.log("start")
       const response:AxiosResponse<ServerResponse<Record<string,any>>>= await axios.post(
-        "/api/users",
+        apiEndPoints.userService.register,
         data,
         {
           headers: {

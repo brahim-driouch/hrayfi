@@ -18,6 +18,7 @@ import {  ZodIssue } from "zod";
 import axios, { AxiosResponse } from "axios";
 import { useState } from "react";
 import { navigate } from "@/lib/navigate";
+import apiEndPoints from "@/constants/apiEndPoints";
 
 
 const LoginForm = () => {
@@ -61,7 +62,7 @@ const LoginForm = () => {
 
   
        const response  :AxiosResponse<ServerResponse<string>>=    await axios.post(
-        "/api/users/login",
+        apiEndPoints.userService.login,
         data,
         {
           headers: {
@@ -72,7 +73,9 @@ const LoginForm = () => {
         }
       );
 
-      console.log(response)
+      if(response.data.status === "success"){
+        navigate(`/${locale}/profile`)
+      }
  
       
       
