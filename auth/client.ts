@@ -31,7 +31,6 @@ async function getAuth(): Promise<LoggedInUserType | null> {
           console.error('Error fetching session data:', error);
         } finally {
           setIsLoading(false); // Set loading state to false after fetching
-          console.log(auth)
         }
       };
   

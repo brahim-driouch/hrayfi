@@ -1,4 +1,4 @@
-"use client"
+
 
 import AuthLinks from "./Navbar/AuthLinks"
 import Navbar from "./Navbar/Navbar"

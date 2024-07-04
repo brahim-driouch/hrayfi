@@ -46,8 +46,9 @@ export async function POST(
 
 
     //  PASSWORD COMPARING
-
-    if(!bcrypt.compare(body.password,userExists.password)) {
+     const passwordMatch = await bcrypt.compare(body.password,userExists.password)
+    
+     if(!passwordMatch) {
         throw new CustomError([
             {
               message: {

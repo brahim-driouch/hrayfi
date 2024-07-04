@@ -33,7 +33,7 @@ export async function createSession(user:LoggedInUserType) {
 
 export async function logout() {
   // Destroy the session
-  cookies().set("hr_auth", "", { expires: new Date(0) });
+   cookies().set("hr_auth", "", { expires: new Date(0) });
 }
 
 export async function getSession() {

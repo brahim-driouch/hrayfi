@@ -1,11 +1,13 @@
-
+import useAuth from "@/auth/client";
 import { type Navlink, authLinks} from "@/constants/links/navLinks"
 import { useTranslations } from "next-intl"
 import Link from "next/link"
 
 
+
 const AuthLinks = () => {
   const t = useTranslations("Navigation");
+
 
   return (
     <ul className=" hidden lg:flex  justify-between items-center space-x-6">
